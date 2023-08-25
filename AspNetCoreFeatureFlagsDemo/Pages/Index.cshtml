@@ -1,0 +1,88 @@
+﻿@page
+@model AspNetCoreFeatureFlagsDemo.Pages.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<h1>Stadiums</h1>
+
+<p style="float:right;">
+    <feature name="CreateStadium">
+        <a class="btn btn-primary" asp-page="Create">Create New</a>    
+    </feature>
+   @* <feature name="CreateStadium" negate="true">
+        Create Stadium feature is currently disabled.
+    </feature>
+*@
+
+    @*<feature name="CreateStadium, EditStadium" requirement="Any">
+        <a class="btn btn-secondary" asp-page="Print">Print</a>
+    </feature>*@
+
+    <feature name="ExportStadium">
+        <a class="btn btn-secondary" asp-page="Export">Export to XLS</a>
+    </feature>
+
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Stadium[0].Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Stadium[0].Capacity)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Stadium[0].BuiltYear)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Stadium[0].PitchLength)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Stadium[0].PitchWidth)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.Stadium) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Capacity)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BuiltYear)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PitchLength)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PitchWidth)
+            </td>
+            <td>
+                <feature name="EditStadium">
+                    <a class="btn btn-primary" asp-page="./Edit" asp-route-id="@item.Id">Edit</a>
+                </feature>
+
+                <a class="btn btn-secondary" asp-page="./Details" asp-route-id="@item.Id">Details</a>
+
+                <feature name="DeleteStadium">
+                    <a class="btn btn-danger" asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+                </feature>
+
+                <feature name="StadiumVirtualTour">
+                    <a class="btn btn-warning" asp-page="./VirtualTour" asp-route-id="@item.Id">Virtual Tour</a>
+                </feature>
+
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
